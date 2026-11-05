@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- EDIT: page title + description (main.js also updates the title from SITE_CONFIG) -->
+  <title>Your Name — Creative Developer</title>
+  <meta name="description" content="Portfolio of a creative developer crafting immersive digital experiences through design, code, and technology.">
+  <meta name="theme-color" content="#050507">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:title" content="Your Name — Creative Developer">
+  <meta property="og:description" content="Crafting immersive digital experiences through design, code, and technology.">
+  <meta property="og:image" content="assets/images/hero-poster.webp">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3CradialGradient id='g' cx='35%25' cy='30%25' r='75%25'%3E%3Cstop offset='0' stop-color='%23fff'/%3E%3Cstop offset='.35' stop-color='%23a9b4c8'/%3E%3Cstop offset='.7' stop-color='%233b6cff'/%3E%3Cstop offset='1' stop-color='%23050507'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='30' fill='url(%23g)'/%3E%3C/svg%3E">
+
+  <link rel="preload" href="assets/images/hero-poster.webp" as="image" media="(min-width: 769px)">
+  <link rel="preload" href="assets/images/hero-poster-mobile.webp" as="image" media="(max-width: 768px)">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <script>
+    document.documentElement.classList.replace('no-js', 'js');
+    // Font preload only over http(s): file:// blocks crossorigin font preloads.
+    if (/^https?:$/.test(location.protocol)) {
+      var l = document.createElement('link');
+      l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = 'anonymous';
+      l.href = 'assets/fonts/archivo-variable.woff2';
+      document.head.appendChild(l);
+    }
+  </script>
+
+  <!-- Smooth scrolling (Lenis, vendored locally — MIT). Everything else is vanilla JS. -->
+  <script src="js/vendor/lenis.min.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/animations.js" defer></script>
+  <script src="js/cursor.js" defer></script>
+  <script src="js/interactions.js" defer></script>
+  <script src="js/three-scene.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ============ PRELOADER ============ -->
+  <div class="preloader" id="preloader" role="progressbar" aria-label="Loading site" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+    <div class="preloader__inner">
+      <svg class="monogram" viewBox="0 0 200 200" aria-hidden="true">
+        <defs>
+          <linearGradient id="mono-grad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ffffff"/>
+            <stop offset=".45" stop-color="#8fa3d9"/>
+            <stop offset="1" stop-color="#8b5cf6"/>
+          </linearGradient>
+        </defs>
+        <circle class="monogram__ring" cx="100" cy="100" r="92"/>
+        <circle class="monogram__ring monogram__ring--inner" cx="100" cy="100" r="78"/>
+        <text class="monogram__text" x="100" y="104" text-anchor="middle" dominant-baseline="middle" data-site="initials">YN</text>
+      </svg>
+      <div class="preloader__meta">
+        <span>Loading experience</span>
+        <span class="preloader__count"><span data-preloader-count>0</span>%</span>
+      </div>
+      <div class="preloader__bar"><span data-preloader-bar></span></div>
+    </div>
+  </div>
+
+  <!-- ============ GLOBAL UI ============ -->
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor__ring"><span class="cursor__label"></span></div>
+    <div class="cursor__dot"></div>
+  </div>
+  <div class="scroll-progress" aria-hidden="true"><span data-scroll-progress></span></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- ============ NAVIGATION ============ -->
+  <header class="nav" id="nav">
+    <a href="#home" class="nav__logo" data-magnetic="0.25" aria-label="Back to top">
+      <span class="nav__logo-mark"><span data-site="initials">YN</span></span>
+      <span class="nav__logo-name" data-site="name">Your Name</span>
+    </a>
+
+    <nav class="nav__links" aria-label="Primary">
+      <ul>
+        <li><a class="nav__link" href="#home" data-nav="home"><span class="roll"><span>Home</span><span aria-hidden="true">Home</span></span></a></li>
+        <li><a class="nav__link" href="#about" data-nav="about"><span class="roll"><span>About</span><span aria-hidden="true">About</span></span></a></li>
+        <li><a class="nav__link" href="#skills" data-nav="skills"><span class="roll"><span>Skills</span><span aria-hidden="true">Skills</span></span></a></li>
+        <li><a class="nav__link" href="#projects" data-nav="projects"><span class="roll"><span>Projects</span><span aria-hidden="true">Projects</span></span></a></li>
+        <li><a class="nav__link" href="#experience" data-nav="experience"><span class="roll"><span>Experience</span><span aria-hidden="true">Experience</span></span></a></li>
+        <li><a class="nav__link" href="#contact" data-nav="contact"><span class="roll"><span>Contact</span><span aria-hidden="true">Contact</span></span></a></li>
+      </ul>
+    </nav>
+
+    <a href="#contact" class="btn btn--glass btn--sm nav__cta" data-magnetic="0.3">
+      <span class="status__dot" data-availability-dot aria-hidden="true"></span>
+      <span class="roll"><span>Let's talk</span><span aria-hidden="true">Let's talk</span></span>
+    </a>
+
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu" data-menu-toggle>
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <!-- Mobile fullscreen menu -->
+  <div class="menu" id="menu" inert>
+    <div class="menu__glow" aria-hidden="true"></div>
+    <nav aria-label="Mobile">
+      <ol class="menu__list">
+        <li style="--i:0"><a class="menu__link" href="#home"><span class="menu__num">01</span><span class="menu__mask"><span class="menu__text">Home</span></span></a></li>
+        <li style="--i:1"><a class="menu__link" href="#about"><span class="menu__num">02</span><span class="menu__mask"><span class="menu__text">About</span></span></a></li>
+        <li style="--i:2"><a class="menu__link" href="#skills"><span class="menu__num">03</span><span class="menu__mask"><span class="menu__text">Skills</span></span></a></li>
+        <li style="--i:3"><a class="menu__link" href="#projects"><span class="menu__num">04</span><span class="menu__mask"><span class="menu__text">Projects</span></span></a></li>
+        <li style="--i:4"><a class="menu__link" href="#experience"><span class="menu__num">05</span><span class="menu__mask"><span class="menu__text">Experience</span></span></a></li>
+        <li style="--i:5"><a class="menu__link" href="#contact"><span class="menu__num">06</span><span class="menu__mask"><span class="menu__text">Contact</span></span></a></li>
+      </ol>
+    </nav>
+    <div class="menu__footer">
+      <a href="mailto:hello@yourname.com" data-site-email><span data-site="email">hello@yourname.com</span></a>
+      <ul class="menu__socials">
+        <li><a href="https://www.linkedin.com/in/your-handle" target="_blank" rel="noopener" data-site-social="linkedin">LinkedIn</a></li>
+        <li><a href="https://github.com/your-handle" target="_blank" rel="noopener" data-site-social="github">GitHub</a></li>
+        <li><a href="https://www.instagram.com/your-handle" target="_blank" rel="noopener" data-site-social="instagram">Instagram</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <main id="main" tabindex="-1">
+
+    <!-- ============ 01 HERO ============ -->
+    <section class="hero" id="home" aria-labelledby="hero-title" data-section>
+      <div class="hero__media" data-hero-media>
+        <!-- Original abstract footage rendered for this site (no licensing restrictions).
+             To use stock footage instead, drop a file in assets/videos/ and update the sources. -->
+        <video class="hero__video" autoplay muted loop playsinline preload="auto"
+               disablepictureinpicture disableremoteplayback aria-hidden="true" tabindex="-1"
+               poster="assets/images/hero-poster.webp" data-hero-video>
+          <source src="assets/videos/hero-desktop.mp4" type="video/mp4" media="(min-width: 769px)">
+          <source src="assets/videos/hero-mobile.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="hero__overlay" aria-hidden="true"></div>
+      <div class="hero__light" aria-hidden="true" data-hero-light></div>
+
+      <canvas class="hero__chrome chrome-canvas" data-chrome="hero" aria-hidden="true"></canvas>
+      <div class="chrome-fallback chrome-fallback--hero" aria-hidden="true"><span></span><span></span><span></span></div>
+      <canvas class="hero__particles" data-particles="hero" aria-hidden="true"></canvas>
+
+      <div class="hero__content container" data-hero-content>
+        <p class="hero__eyebrow eyebrow" data-hero-anim style="--d:.05s">
+          <span class="eyebrow__dot" aria-hidden="true"></span>
+          <span data-site="role">Creative Developer</span>
+          <span aria-hidden="true">—</span>
+          <span>Portfolio <span data-year>2026</span></span>
+        </p>
+
+        <h1 class="hero__title" id="hero-title" data-split="chars">
+          <span class="hero__line">Designing</span>
+          <span class="hero__line hero__line--indent">The <em class="chrome-text">Digital</em></span>
+          <span class="hero__line">Future.</span>
+        </h1>
+
+        <div class="hero__bottom">
+          <p class="hero__lead" data-hero-anim style="--d:.9s">I’m a creative developer crafting immersive digital experiences through design, code, and technology.</p>
+          <div class="hero__ctas" data-hero-anim style="--d:1.05s">
+            <a href="#projects" class="btn btn--primary" data-magnetic="0.35">
+              <span class="roll"><span>View selected work</span><span aria-hidden="true">View selected work</span></span>
+              <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+            </a>
+            <a href="#contact" class="btn btn--ghost" data-magnetic="0.35">
+              <span class="roll"><span>Start a project</span><span aria-hidden="true">Start a project</span></span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <a href="#about" class="hero__scroll" data-hero-anim style="--d:1.2s" aria-label="Scroll to the About section">
+        <span class="hero__scroll-text">Scroll</span>
+        <span class="hero__scroll-line" aria-hidden="true"></span>
+      </a>
+      <div class="hero__meta" aria-hidden="true" data-hero-anim style="--d:1.25s">
+        <span>N°&nbsp;00</span>
+        <span>Index / Intro</span>
+      </div>
+    </section>
+
+    <!-- Velocity-reactive marquee -->
+    <div class="marquee" aria-hidden="true" data-marquee>
+      <div class="marquee__track">
+        <div class="marquee__group">
+          <span>Creative Development</span><i></i>
+          <span class="is-outline">Interaction Design</span><i></i>
+          <span>WebGL &amp; Shaders</span><i></i>
+          <span class="is-outline">Motion Systems</span><i></i>
+          <span>Design Engineering</span><i></i>
+        </div>
+        <div class="marquee__group">
+          <span>Creative Development</span><i></i>
+          <span class="is-outline">Interaction Design</span><i></i>
+          <span>WebGL &amp; Shaders</span><i></i>
+          <span class="is-outline">Motion Systems</span><i></i>
+          <span>Design Engineering</span><i></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 02 ABOUT ============ -->
+    <section class="section about" id="about" aria-labelledby="about-title" data-section>
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow" data-reveal="fade-up"><span class="eyebrow__num">01</span> About</p>
+          <h2 class="display" id="about-title" data-reveal="lines">
+            <span class="line"><span class="line__inner">More than</span></span>
+            <span class="line"><span class="line__inner">just <span class="chrome-text">code.</span></span></span>
+          </h2>
+        </header>
+
+        <div class="about__grid">
+          <figure class="about__portrait" data-reveal="clip">
+            <div class="about__portrait-inner" data-parallax="-0.12">
+              <!-- EDIT: replace with your portrait (keep ~4:5 ratio) -->
+              <img src="assets/images/profile-placeholder.webp" width="900" height="1125" loading="lazy" decoding="async" alt="Portrait placeholder — replace with your photo">
+            </div>
+            <figcaption class="glass-tag">
+              <span class="glass-tag__dot" aria-hidden="true"></span>
+              Portrait placeholder — swap <code>assets/images/profile-placeholder.webp</code>
+            </figcaption>
+          </figure>
+
+          <div class="about__text">
+            <!-- EDIT: personal introduction -->
+            <p class="about__intro" data-scroll-words>I work where design meets engineering — shaping ideas into interfaces that move, respond and feel alive. Every pixel considered, every interaction intentional, every frame earned.</p>
+            <p class="about__body" data-reveal="fade-up">My process blends strategy, visual design and hands-on code. I prototype early, test often and obsess over the details that make a product feel effortless — from the first sketch to the last millisecond of a transition.</p>
+
+            <!-- EDIT: creative philosophy -->
+            <div class="philosophy">
+              <h3 class="philosophy__title eyebrow" data-reveal="fade-up">Creative philosophy</h3>
+              <ol class="philosophy__list" data-stagger>
+                <li data-reveal="fade-up">
+                  <span class="philosophy__num">01</span>
+                  <div><h4>Feel first</h4><p>Great interfaces are felt before they are understood. Design for emotion, engineer for clarity.</p></div>
+                </li>
+                <li data-reveal="fade-up">
+                  <span class="philosophy__num">02</span>
+                  <div><h4>Motion with meaning</h4><p>Animation should guide, explain and delight — never decorate for its own sake.</p></div>
+                </li>
+                <li data-reveal="fade-up">
+                  <span class="philosophy__num">03</span>
+                  <div><h4>Performance is design</h4><p>A beautiful experience that stutters isn’t beautiful. Speed and accessibility are part of the craft.</p></div>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <!-- Facts about this site (true as built). Swap for your own numbers if you like. -->
+        <div class="stats" data-stagger>
+          <p class="stats__caption eyebrow" data-reveal="fade-up">This site, by the numbers</p>
+          <div class="stat" data-reveal="fade-up">
+            <span class="stat__value"><span data-count="60">60</span></span>
+            <span class="stat__label">Frames per second — the animation budget</span>
+          </div>
+          <div class="stat" data-reveal="fade-up">
+            <span class="stat__value"><span data-count="0" data-count-from="100">0</span></span>
+            <span class="stat__label">Frontend frameworks used to build it</span>
+          </div>
+          <div class="stat" data-reveal="fade-up">
+            <span class="stat__value"><span data-count="100">100</span><sup>%</sup></span>
+            <span class="stat__label">Hand-written HTML, CSS &amp; JavaScript</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 03 SKILLS ============ -->
+    <section class="section skills" id="skills" aria-labelledby="skills-title" data-section>
+      <div class="container">
+        <header class="section-head section-head--split">
+          <div>
+            <p class="eyebrow" data-reveal="fade-up"><span class="eyebrow__num">02</span> Skills</p>
+            <h2 class="display" id="skills-title" data-reveal="lines">
+              <span class="line"><span class="line__inner">My creative</span></span>
+              <span class="line"><span class="line__inner"><span class="chrome-text">toolkit.</span></span></span>
+            </h2>
+          </div>
+          <p class="section-lead" data-reveal="fade-up">Four disciplines, one practice. Open a category to see the tools behind it.</p>
+        </header>
+
+        <!-- EDIT: skill categories and tools -->
+        <ul class="skills__list" data-skills>
+          <li class="skill is-open" data-reveal="fade-up">
+            <h3 class="skill__heading">
+              <button class="skill__head" type="button" aria-expanded="true" aria-controls="skill-panel-1" id="skill-btn-1">
+                <span class="skill__num">01</span>
+                <span class="skill__title">Frontend Development</span>
+                <span class="skill__meta">Semantic · Fast · Accessible</span>
+                <span class="skill__icon" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="skill__panel" id="skill-panel-1" role="region" aria-labelledby="skill-btn-1">
+              <div class="skill__panel-inner">
+                <p>Robust, standards-first interfaces built to last — responsive layouts, resilient components and pages that load fast on any device.</p>
+                <ul class="chips">
+                  <li class="chip">HTML5</li><li class="chip">CSS3 &amp; Grid</li><li class="chip">JavaScript ES6+</li>
+                  <li class="chip">Accessibility</li><li class="chip">Web Performance</li><li class="chip">Responsive Systems</li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="skill" data-reveal="fade-up">
+            <h3 class="skill__heading">
+              <button class="skill__head" type="button" aria-expanded="false" aria-controls="skill-panel-2" id="skill-btn-2">
+                <span class="skill__num">02</span>
+                <span class="skill__title">Creative Development</span>
+                <span class="skill__meta">WebGL · Motion · Interaction</span>
+                <span class="skill__icon" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="skill__panel" id="skill-panel-2" role="region" aria-labelledby="skill-btn-2">
+              <div class="skill__panel-inner">
+                <p>Real-time graphics and choreographed motion — shaders, canvas and physics that turn a page into an experience.</p>
+                <ul class="chips">
+                  <li class="chip">WebGL</li><li class="chip">GLSL Shaders</li><li class="chip">Three.js</li>
+                  <li class="chip">GSAP</li><li class="chip">Canvas 2D</li><li class="chip">Creative Coding</li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="skill" data-reveal="fade-up">
+            <h3 class="skill__heading">
+              <button class="skill__head" type="button" aria-expanded="false" aria-controls="skill-panel-3" id="skill-btn-3">
+                <span class="skill__num">03</span>
+                <span class="skill__title">UI/UX Design</span>
+                <span class="skill__meta">Research · Systems · Prototypes</span>
+                <span class="skill__icon" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="skill__panel" id="skill-panel-3" role="region" aria-labelledby="skill-btn-3">
+              <div class="skill__panel-inner">
+                <p>From user insight to polished pixels — flows, design systems and interactive prototypes that make decisions easy.</p>
+                <ul class="chips">
+                  <li class="chip">Figma</li><li class="chip">Design Systems</li><li class="chip">Prototyping</li>
+                  <li class="chip">Interaction Design</li><li class="chip">Typography</li><li class="chip">User Research</li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="skill" data-reveal="fade-up">
+            <h3 class="skill__heading">
+              <button class="skill__head" type="button" aria-expanded="false" aria-controls="skill-panel-4" id="skill-btn-4">
+                <span class="skill__num">04</span>
+                <span class="skill__title">Backend Development</span>
+                <span class="skill__meta">APIs · Data · Infrastructure</span>
+                <span class="skill__icon" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="skill__panel" id="skill-panel-4" role="region" aria-labelledby="skill-btn-4">
+              <div class="skill__panel-inner">
+                <p>The engine under the experience — clean APIs, sensible data models and deployments that stay calm under load.</p>
+                <ul class="chips">
+                  <li class="chip">Node.js</li><li class="chip">REST APIs</li><li class="chip">SQL Databases</li>
+                  <li class="chip">Authentication</li><li class="chip">Serverless</li><li class="chip">CI/CD</li>
+                </ul>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ 04 PROJECTS ============ -->
+    <section class="section projects" id="projects" aria-labelledby="projects-title" data-section>
+      <div class="container">
+        <header class="section-head section-head--split">
+          <div>
+            <p class="eyebrow" data-reveal="fade-up"><span class="eyebrow__num">03</span> Projects</p>
+            <h2 class="display" id="projects-title" data-reveal="lines">
+              <span class="line"><span class="line__inner">Selected</span></span>
+              <span class="line"><span class="line__inner"><span class="chrome-text">work.</span></span></span>
+            </h2>
+          </div>
+          <p class="section-lead" data-reveal="fade-up">Three concept showcases. Replace them with your own case studies — images, copy and links live right here in the HTML.</p>
+        </header>
+
+        <!-- EDIT: projects (placeholder content) -->
+        <div class="projects__list">
+          <article class="project" aria-labelledby="p1-title">
+            <a class="project__media" href="https://example.com/liquid-signal" target="_blank" rel="noopener" data-cursor="view" data-cursor-label="View case" data-reveal="clip" aria-label="Open Liquid Signal (opens in a new tab)">
+              <img src="assets/images/project-01.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="Liquid chrome form rendered in WebGL against a dark studio backdrop">
+              <span class="project__badge" aria-hidden="true">View case ↗</span>
+            </a>
+            <div class="project__info">
+              <div class="project__meta"><span class="project__index">01 / 03</span><span>Immersive Web</span><span>2026</span></div>
+              <h3 class="project__title" id="p1-title" data-split="chars">Liquid Signal</h3>
+              <p class="project__desc">A concept brand experience where a reactive chrome form responds to scroll and cursor — proof that real-time graphics can carry a story.</p>
+              <ul class="chips chips--sm"><li class="chip">WebGL</li><li class="chip">GLSL</li><li class="chip">Vanilla JS</li></ul>
+              <a class="link-arrow" href="https://example.com/liquid-signal" target="_blank" rel="noopener" data-magnetic="0.2">
+                <span>View project</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+                <span class="sr-only">(opens in a new tab)</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="project project--reverse" aria-labelledby="p2-title">
+            <a class="project__media" href="https://example.com/prism-os" target="_blank" rel="noopener" data-cursor="view" data-cursor-label="View case" data-reveal="clip" aria-label="Open Prism OS (opens in a new tab)">
+              <img src="assets/images/project-02.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="Cluster of chrome droplets suspended in violet light">
+              <span class="project__badge" aria-hidden="true">View case ↗</span>
+            </a>
+            <div class="project__info">
+              <div class="project__meta"><span class="project__index">02 / 03</span><span>Product · UI System</span><span>2025</span></div>
+              <h3 class="project__title" id="p2-title" data-split="chars">Prism OS</h3>
+              <p class="project__desc">A design system and interactive prototype for a next-generation control dashboard — tokens, components and motion principles in one living spec.</p>
+              <ul class="chips chips--sm"><li class="chip">Figma</li><li class="chip">Design Tokens</li><li class="chip">CSS</li><li class="chip">A11y</li></ul>
+              <a class="link-arrow" href="https://example.com/prism-os" target="_blank" rel="noopener" data-magnetic="0.2">
+                <span>View project</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+                <span class="sr-only">(opens in a new tab)</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="project" aria-labelledby="p3-title">
+            <a class="project__media" href="https://example.com/nocturne" target="_blank" rel="noopener" data-cursor="view" data-cursor-label="View case" data-reveal="clip" aria-label="Open Nocturne (opens in a new tab)">
+              <img src="assets/images/project-03.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="Polished metallic ring floating in blue light">
+              <span class="project__badge" aria-hidden="true">View case ↗</span>
+            </a>
+            <div class="project__info">
+              <div class="project__meta"><span class="project__index">03 / 03</span><span>E-commerce · Motion</span><span>2025</span></div>
+              <h3 class="project__title" id="p3-title" data-split="chars">Nocturne</h3>
+              <p class="project__desc">An editorial storefront concept pairing cinematic product films with a frictionless, sub-second checkout flow.</p>
+              <ul class="chips chips--sm"><li class="chip">Node.js</li><li class="chip">Headless CMS</li><li class="chip">Video</li><li class="chip">Performance</li></ul>
+              <a class="link-arrow" href="https://example.com/nocturne" target="_blank" rel="noopener" data-magnetic="0.2">
+                <span>View project</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+                <span class="sr-only">(opens in a new tab)</span>
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LAB — HORIZONTAL GALLERY ============ -->
+    <section class="lab" id="lab" aria-labelledby="lab-title" data-gallery>
+      <div class="lab__pin">
+        <div class="lab__head container">
+          <div>
+            <p class="eyebrow"><span class="eyebrow__num">03.5</span> Lab</p>
+            <h2 class="lab__title" id="lab-title">Explorations &amp; <span class="chrome-text">experiments</span></h2>
+          </div>
+          <p class="lab__hint" aria-hidden="true"><span data-gallery-hint>Keep scrolling</span> <span class="lab__hint-line"></span></p>
+        </div>
+        <div class="lab__viewport" data-gallery-viewport data-cursor="view" data-cursor-label="Scroll">
+          <ul class="lab__track" data-gallery-track>
+            <li class="lab-card"><figure><div class="lab-card__img"><img src="assets/images/lab-01.webp" width="900" height="1125" loading="lazy" decoding="async" alt="Abstract violet silk surface study"></div><figcaption><span>Study 01</span><span>Silk / Shader</span></figcaption></figure></li>
+            <li class="lab-card"><figure><div class="lab-card__img"><img src="assets/images/lab-02.webp" width="900" height="1125" loading="lazy" decoding="async" alt="Abstract icy chrome surface study"></div><figcaption><span>Study 02</span><span>Ice / Reflection</span></figcaption></figure></li>
+            <li class="lab-card"><figure><div class="lab-card__img"><img src="assets/images/lab-03.webp" width="900" height="1125" loading="lazy" decoding="async" alt="Abstract purple liquid metal study"></div><figcaption><span>Study 03</span><span>Ember / Flow</span></figcaption></figure></li>
+            <li class="lab-card"><figure><div class="lab-card__img"><img src="assets/images/lab-04.webp" width="900" height="1125" loading="lazy" decoding="async" alt="Abstract deep blue fluid study"></div><figcaption><span>Study 04</span><span>Tide / Displacement</span></figcaption></figure></li>
+            <li class="lab-card"><figure><div class="lab-card__img"><img src="assets/images/lab-05.webp" width="900" height="1125" loading="lazy" decoding="async" alt="Abstract violet and blue chrome folds"></div><figcaption><span>Study 05</span><span>Fold / Lighting</span></figcaption></figure></li>
+            <li class="lab-card"><figure><div class="lab-card__img"><img src="assets/images/lab-06.webp" width="900" height="1125" loading="lazy" decoding="async" alt="Abstract silver liquid ripple study"></div><figcaption><span>Study 06</span><span>Mercury / Noise</span></figcaption></figure></li>
+          </ul>
+        </div>
+        <div class="lab__progress container" aria-hidden="true"><span class="lab__progress-bar"><span data-gallery-progress></span></span></div>
+      </div>
+    </section>
+
+    <!-- ============ SIGNATURE 3D ============ -->
+    <section class="signature" id="signature" aria-labelledby="sig-title" data-signature>
+      <div class="signature__sticky">
+        <div class="signature__gradient" aria-hidden="true"></div>
+        <canvas class="signature__chrome chrome-canvas" data-chrome="signature" aria-hidden="true"></canvas>
+        <div class="chrome-fallback chrome-fallback--signature" aria-hidden="true"><span></span><span></span><span></span></div>
+        <canvas class="signature__particles" data-particles="signature" aria-hidden="true"></canvas>
+        <div class="signature__orbs" aria-hidden="true">
+          <span class="orb" style="--x:12%;--y:22%;--s:9vw;--d:220"></span>
+          <span class="orb" style="--x:80%;--y:16%;--s:6vw;--d:340"></span>
+          <span class="orb" style="--x:86%;--y:72%;--s:12vw;--d:160"></span>
+          <span class="orb" style="--x:8%;--y:78%;--s:5vw;--d:420"></span>
+        </div>
+
+        <h2 class="signature__title" id="sig-title">
+          <span class="sig-word" style="--s:.02">Let’s</span>
+          <span class="sig-word" style="--s:.08">create</span>
+          <span class="sig-word" style="--s:.14">the</span>
+          <span class="sig-word sig-word--big" style="--s:.2">unexpected.</span>
+        </h2>
+
+        <div class="signature__hud" aria-hidden="true">
+          <span>Liquid chrome / realtime</span>
+          <span>Morph <b data-sig-readout>000</b>%</span>
+          <span data-sig-state>State: Merge</span>
+        </div>
+        <p class="signature__caption">Scroll to transform · Move to interact</p>
+      </div>
+    </section>
+
+    <!-- ============ 05 EXPERIENCE ============ -->
+    <section class="section experience" id="experience" aria-labelledby="exp-title" data-section>
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow" data-reveal="fade-up"><span class="eyebrow__num">04</span> Experience</p>
+          <h2 class="display" id="exp-title" data-reveal="lines">
+            <span class="line"><span class="line__inner">The journey</span></span>
+            <span class="line"><span class="line__inner"><span class="chrome-text">so far.</span></span></span>
+          </h2>
+        </header>
+
+        <!-- EDIT: replace roles, companies, dates and highlights -->
+        <div class="timeline" data-timeline>
+          <div class="timeline__line" aria-hidden="true"><span data-timeline-fill></span></div>
+          <ol class="timeline__list">
+            <li class="tl-item" data-tl-item>
+              <span class="tl-item__node" aria-hidden="true"></span>
+              <p class="tl-item__date">20XX — Present</p>
+              <div class="tl-item__body">
+                <h3 class="tl-item__role">Senior Creative Developer</h3>
+                <p class="tl-item__company">Company / Studio Name</p>
+                <p class="tl-item__summary">Leading interactive builds from concept to launch — prototyping in code, partnering with design, and setting the bar for motion and performance.</p>
+                <button class="tl-item__toggle" type="button" aria-expanded="false" aria-controls="tl-d1">
+                  <span>Details</span><span class="tl-item__plus" aria-hidden="true"></span>
+                </button>
+                <div class="tl-item__details" id="tl-d1" role="region" aria-label="Senior Creative Developer details">
+                  <ul>
+                    <li>Highlight or achievement — replace with your own.</li>
+                    <li>Team, scope or tools you owned.</li>
+                    <li>A measurable outcome you’re proud of.</li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            <li class="tl-item" data-tl-item>
+              <span class="tl-item__node" aria-hidden="true"></span>
+              <p class="tl-item__date">20XX — 20XX</p>
+              <div class="tl-item__body">
+                <h3 class="tl-item__role">Creative Developer</h3>
+                <p class="tl-item__company">Company / Studio Name</p>
+                <p class="tl-item__summary">Building campaign sites and product experiences with WebGL, animation systems and component libraries.</p>
+                <button class="tl-item__toggle" type="button" aria-expanded="false" aria-controls="tl-d2">
+                  <span>Details</span><span class="tl-item__plus" aria-hidden="true"></span>
+                </button>
+                <div class="tl-item__details" id="tl-d2" role="region" aria-label="Creative Developer details">
+                  <ul>
+                    <li>Highlight or achievement — replace with your own.</li>
+                    <li>Notable launch, award or client.</li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            <li class="tl-item" data-tl-item>
+              <span class="tl-item__node" aria-hidden="true"></span>
+              <p class="tl-item__date">20XX — 20XX</p>
+              <div class="tl-item__body">
+                <h3 class="tl-item__role">Frontend Developer</h3>
+                <p class="tl-item__company">Company Name</p>
+                <p class="tl-item__summary">Shipping accessible, responsive interfaces and learning to sweat the details that make products feel effortless.</p>
+                <button class="tl-item__toggle" type="button" aria-expanded="false" aria-controls="tl-d3">
+                  <span>Details</span><span class="tl-item__plus" aria-hidden="true"></span>
+                </button>
+                <div class="tl-item__details" id="tl-d3" role="region" aria-label="Frontend Developer details">
+                  <ul>
+                    <li>Highlight or achievement — replace with your own.</li>
+                    <li>Skills or practices you grew here.</li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            <li class="tl-item" data-tl-item>
+              <span class="tl-item__node" aria-hidden="true"></span>
+              <p class="tl-item__date">20XX</p>
+              <div class="tl-item__body">
+                <h3 class="tl-item__role">Education / Where it started</h3>
+                <p class="tl-item__company">School, course or first project</p>
+                <p class="tl-item__summary">The moment design and code clicked. Replace with your degree, bootcamp or the side project that started it all.</p>
+                <button class="tl-item__toggle" type="button" aria-expanded="false" aria-controls="tl-d4">
+                  <span>Details</span><span class="tl-item__plus" aria-hidden="true"></span>
+                </button>
+                <div class="tl-item__details" id="tl-d4" role="region" aria-label="Education details">
+                  <ul>
+                    <li>Course, focus area or thesis.</li>
+                    <li>Something you built that you still think about.</li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 06 CONTACT ============ -->
+    <section class="contact" id="contact" aria-labelledby="contact-title" data-section>
+      <div class="contact__bg" aria-hidden="true">
+        <span class="contact__blob contact__blob--a"></span>
+        <span class="contact__blob contact__blob--b"></span>
+        <span class="contact__blob contact__blob--c"></span>
+        <span class="contact__grid"></span>
+      </div>
+
+      <div class="container contact__inner">
+        <div class="contact__top">
+          <p class="eyebrow" data-reveal="fade-up"><span class="eyebrow__num">05</span> Contact</p>
+          <p class="status" data-reveal="fade-up" data-availability>
+            <span class="status__dot" aria-hidden="true"></span>
+            <span data-availability-text>Available for new projects</span>
+          </p>
+        </div>
+
+        <h2 class="display contact__title" id="contact-title" data-reveal="lines">
+          <span class="line"><span class="line__inner">Have a vision?</span></span>
+          <span class="line"><span class="line__inner"><span class="chrome-text">Let’s build it.</span></span></span>
+        </h2>
+
+        <div class="contact__actions" data-reveal="fade-up">
+          <a class="contact__email" href="mailto:hello@yourname.com" data-site-email data-cursor="hover">
+            <span class="contact__email-label eyebrow">Write to me</span>
+            <span class="contact__email-addr"><span data-site="email">hello@yourname.com</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+            </span>
+          </a>
+          <div class="contact__buttons">
+            <a class="btn btn--primary" href="mailto:hello@yourname.com" data-site-email data-magnetic="0.35">
+              <span class="roll"><span>Send an email</span><span aria-hidden="true">Send an email</span></span>
+              <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+            </a>
+            <button class="btn btn--ghost" type="button" data-copy-email data-magnetic="0.35">
+              <span class="roll"><span>Copy address</span><span aria-hidden="true">Copy address</span></span>
+            </button>
+          </div>
+        </div>
+
+        <ul class="socials" data-stagger>
+          <li data-reveal="fade-up"><a class="social" href="https://www.linkedin.com/in/your-handle" target="_blank" rel="noopener" data-site-social="linkedin"><span class="social__name">LinkedIn</span><span class="social__sub">Career &amp; network</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg><span class="sr-only">(opens in a new tab)</span></a></li>
+          <li data-reveal="fade-up"><a class="social" href="https://github.com/your-handle" target="_blank" rel="noopener" data-site-social="github"><span class="social__name">GitHub</span><span class="social__sub">Code &amp; experiments</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg><span class="sr-only">(opens in a new tab)</span></a></li>
+          <li data-reveal="fade-up"><a class="social" href="https://www.instagram.com/your-handle" target="_blank" rel="noopener" data-site-social="instagram"><span class="social__name">Instagram</span><span class="social__sub">Process &amp; visuals</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg><span class="sr-only">(opens in a new tab)</span></a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer__wordmark" aria-hidden="true" data-fit-text data-reveal="fill"><span data-site="name">Your Name</span></p>
+      <div class="footer__row">
+        <nav aria-label="Footer">
+          <ul class="footer__links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+        <button class="footer__top" type="button" data-back-to-top data-magnetic="0.4">
+          <span>Back to top</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        </button>
+      </div>
+      <div class="footer__bottom">
+        <p>© <span data-year>2026</span> <span data-site="name">Your Name</span>. All rights reserved.</p>
+        <p>Designed &amp; built with HTML, CSS &amp; vanilla JavaScript.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" role="status" aria-live="polite" data-toast></div>
+</body>
+</html>

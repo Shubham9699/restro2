@@ -1,0 +1,116 @@
+/* ==========================================================================
+   responsive.css — laptop, tablet and mobile adaptations
+   ========================================================================== */
+
+/* ---------- Laptop ---------- */
+@media (max-width: 1280px) {
+  .nav__logo-name { display: none; }
+  .nav__link { padding-inline: 0.8rem; }
+}
+
+/* ---------- Tablet & below: hamburger navigation ---------- */
+@media (max-width: 1024px) {
+  .nav__links, .nav__cta { display: none; }
+  .nav__toggle { display: block; }
+  .nav__logo-name { display: inline; }
+
+  .section-head--split { grid-template-columns: 1fr; }
+
+  .about__portrait { grid-column: 1 / span 6; }
+  .about__text { grid-column: 7 / span 6; }
+
+  .skill__head { grid-template-columns: 3rem minmax(0, 1fr) 3rem; }
+  .skill__meta { display: none; }
+  .skill__panel-inner { grid-template-columns: 3rem minmax(0, 1fr); }
+  .skill__panel-inner > p, .skill__panel-inner > .chips { grid-column: 2; }
+  .skill__panel-inner > p { padding-bottom: 0; }
+
+  .project, .project--reverse { grid-template-columns: 1fr; gap: 1.5rem; }
+  .project .project__media, .project--reverse .project__media { grid-column: 1; grid-row: auto; }
+  .project .project__info, .project--reverse .project__info { grid-column: 1; grid-row: auto; max-width: 40rem; }
+
+  .socials { grid-template-columns: 1fr; }
+}
+
+/* ---------- Tablet portrait ---------- */
+@media (max-width: 860px) {
+  .about__grid { grid-template-columns: 1fr; }
+  .about__portrait { grid-column: 1; max-width: 30rem; }
+  .about__text { grid-column: 1; padding-top: 0; }
+
+  .timeline { --line-x: 0.5rem; }
+  .tl-item { grid-template-columns: 1fr; padding-left: 2.5rem; }
+  .tl-item__node { top: calc(clamp(2.5rem, 5vw, 4.5rem) + 0.35rem); }
+  .tl-item__date { padding-right: 0; margin-bottom: 0.9rem; font-size: 1rem; }
+  .tl-item__body { padding-left: 0; }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 768px) {
+  :root { --nav-h: 68px; --radius: 16px; }
+
+  .hero__media { background-image: url("../assets/images/hero-poster-mobile.webp"); }
+  .hero { padding-bottom: 2.5rem; }
+  .hero__chrome { right: -20vw; left: auto; top: 9vh; width: 110vw; height: 56vh; opacity: 0.85; }
+  .hero__title { font-size: clamp(2.1rem, 12.2vw, 5.4rem); line-height: 0.88; }
+  .hero__eyebrow { flex-wrap: wrap; row-gap: 0.3em; }
+  .menu__text { font-size: clamp(1.9rem, 9.4vw, 4rem); }
+  .signature__title { font-size: clamp(1.8rem, 9vw, 3.6rem); }
+  .hero__line--indent { margin-left: 0; }
+  .hero__bottom { padding-right: 0; }
+  .hero__ctas { width: 100%; }
+  .hero__ctas .btn { flex: 1 1 auto; }
+  .hero__scroll { display: none; }
+  .hero__meta { display: none; }
+  .chrome-fallback--hero { width: 70vw; right: -10vw; top: 12vh; }
+
+  .stats { grid-template-columns: 1fr; gap: 2rem; }
+
+  .skill__head { grid-template-columns: 2.2rem minmax(0, 1fr) 2.6rem; gap: 0.8rem; }
+  .skill__icon { width: 2.6rem; height: 2.6rem; }
+  .skill__title { font-size: clamp(1.35rem, 6.4vw, 2.2rem); }
+  .skill__panel-inner { grid-template-columns: 1fr; gap: 1rem; }
+  .skill__panel-inner > p, .skill__panel-inner > .chips { grid-column: 1; }
+  .skill__panel-inner > .chips { padding-bottom: 1.8rem; }
+
+  .project__badge { display: inline-flex; }
+
+  .lab__head { flex-direction: column; align-items: flex-start; }
+  .lab-card { width: 72vw; }
+
+  .signature { height: 260vh; }
+  .signature__hud span:first-child { display: none; }
+  .orb { --s: 16vw !important; }
+
+  .contact__actions { flex-direction: column; align-items: stretch; }
+  .contact__buttons .btn { flex: 1 1 auto; }
+
+  .footer__row { flex-direction: column; align-items: flex-start; }
+  .footer__bottom { flex-direction: column; }
+
+  .grain { animation: none; opacity: 0.04; }
+}
+
+@media (max-width: 400px) {
+  .btn { padding: 0 1.2rem; font-size: 0.72rem; }
+  .eyebrow { font-size: 0.68rem; }
+}
+
+/* ---------- Touch devices: no custom cursor, show static labels ---------- */
+@media (hover: none) {
+  .project__badge { display: inline-flex; }
+  .skill:hover::before { opacity: 0; }
+}
+
+/* ---------- Large screens ---------- */
+@media (min-width: 1800px) {
+  :root { --nav-h: 92px; }
+  .lab-card { width: 22vw; }
+}
+
+/* ---------- Short viewports (landscape phones) ---------- */
+@media (max-height: 520px) and (orientation: landscape) {
+  .hero { min-height: 560px; }
+  .hero__title { font-size: clamp(2.2rem, 8vw, 4.5rem); }
+  .lab.is-native .lab__pin { padding-block: 3rem; }
+}
